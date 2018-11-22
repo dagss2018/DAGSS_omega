@@ -21,4 +21,6 @@ public class PrescripcionDAO extends GenericoDAO<Prescripcion> {
     }
     
     // Completar aqui  
+    
+            
 }

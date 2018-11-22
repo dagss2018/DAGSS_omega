@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+       xmlns:b="http://bootsfaces.net/ui">
 
     <body>
 
@@ -17,7 +18,17 @@
                 <ui:include src="/plantillas/menuComun.xhtml"/>
             </ui:define>
 
-            <ui:define name="contenido">
+            <ui:define name="contenido">               
+                <h:form id="formularioListado">
+                     <b:column offset="1" span="6">
+                        <b:panel title="Introducir nº tarjeta sanitaria de un paciente" collapsible="false">
+                            <h:inputText id="nTarjeta" label="numeroTarjetaSanitaria" value="#{pacienteControlador.numeroTarjetaSanitaria}" />
+                            <b:commandButton value ="Buscar paciente" action="#{pacienteControlador.doGestionRecetas()}" span="5"/>
+                                             
+                        </b:panel>       
+                     </b:column>         
+                </h:form>
+                
             </ui:define>
 
         </ui:composition>

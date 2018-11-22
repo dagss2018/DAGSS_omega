@@ -6,10 +6,13 @@ package es.uvigo.esei.dagss.controladores.farmacia;
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.FarmaciaDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Farmacia;
+import es.uvigo.esei.dagss.dominio.entidades.Receta;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -26,13 +29,18 @@ public class FarmaciaControlador implements Serializable {
     private Farmacia farmaciaActual;
     private String nif;
     private String password;
-
+    
+    private String numTarjetaPaciente;
+    private List<Receta> listRecetasPacientes;
+    
     @Inject
     private AutenticacionControlador autenticacionControlador;
 
     @EJB
     private FarmaciaDAO farmaciaDAO;
 
+    
+    
     /**
      * Creates a new instance of AdministradorControlador
      */
@@ -88,4 +96,30 @@ public class FarmaciaControlador implements Serializable {
         }
         return destino;
     }
+
+    public String getNumTarjetaPaciente() {
+        return numTarjetaPaciente;
+    }
+
+    public void setNumTarjetaPaciente(String numTarjetaPaciente) {
+        this.numTarjetaPaciente = numTarjetaPaciente;
+    }
+
+    public List<Receta> getListRecetasPacientes() {
+        return listRecetasPacientes;
+    }
+
+    public void setListRecetasPacientes(List<Receta> listRecetasPacientes) {
+        this.listRecetasPacientes = listRecetasPacientes;
+    }
+    
+    
+    
+    
+    public void doBuscarRecetasUsuario(){
+        listRecetasPacientes = new ArrayList<>();
+        listRecetasPacientes =
+                    farmaciaDAO.buscarRecetasPorPaciente(numTarjetaPaciente);
+    }
+    
 }
