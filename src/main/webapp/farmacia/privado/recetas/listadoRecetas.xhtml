@@ -28,16 +28,16 @@
                                 <h:outputText value="#{receta.id}"/>
                             </b:dataTableColumn>
 
-                            <b:dataTableColumn label="prescripcion">
-                                <h:outputText value="#{receta.prescripcion.id}, #{receta.prescripcion.cantidad}" />
+                            <b:dataTableColumn label="Medicamento">
+                                <h:outputText value="#{receta.prescripcion.medicamento.nombre}" />
                             </b:dataTableColumn>                    
 
-                            <b:dataTableColumn label="Cantidad">
-                                <h:outputText value="#{receta.cantidad}" />
+                            <b:dataTableColumn label="Medico">
+                                <h:outputText value="#{receta.prescripcion.medico.nombre}" />
                             </b:dataTableColumn>                    
 
                             <b:dataTableColumn label="Estado receta">
-                                <h:outputText value="#{receta.estadoReceta}"/>
+                                <h:outputText value="#{receta.estadoReceta.etiqueta}"/>
                             </b:dataTableColumn>                    
 
                             <b:dataTableColumn label="Fin de validez">

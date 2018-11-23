@@ -115,10 +115,10 @@ public class FarmaciaControlador implements Serializable {
     
 
     public String doBuscarRecetasUsuario(){
-        System.out.println(numTarjetaPaciente);
+
         listRecetasPacientes =
                     farmaciaDAO.buscarRecetasPorPaciente(numTarjetaPaciente);
-                System.out.println(listRecetasPacientes.size());
+
         return "recetas/listadoRecetas";
     }
     

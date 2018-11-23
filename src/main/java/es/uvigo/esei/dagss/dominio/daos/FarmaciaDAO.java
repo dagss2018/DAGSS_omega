@@ -23,7 +23,7 @@ public class FarmaciaDAO extends GenericoDAO<Farmacia> {
     }
 
     // Completar aqui
-    
+    //Añadir recetas  existentes en el sistema desde la fecha actual
     public List<Receta> buscarRecetasPorPaciente(String numeroTarjetaPaciente){
 
         return em.createQuery( "SELECT r FROM Receta as r "
