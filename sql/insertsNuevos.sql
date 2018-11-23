@@ -1,0 +1,16 @@
+INSERT INTO `receta` (`ID`, `CANTIDAD`, `ESTADORECETA`, `FINVALIDEZ`, `INICIOVALIDEZ`, `FARMACIADISPENSADORA_ID`, `PRESCRIPCION_ID`) 
+
+VALUES ('1', '1', 'generada', '2018-11-28', '2018-11-12', '4', '1');
+
+
+INSERT INTO `prescripcion` (`ID`, `DOSIS`, `FECHAFIN`, `FECHAINICIO`, `INDICACIONES`, `MEDICAMENTO_ID`, `MEDICO_ID`, `PACIENTE_ID`) 
+
+VALUES (NULL, '1', '2018-11-21', '2018-11-13', 'indicaciones1', '1', '2', '3')
+
+
+INSERT INTO `medicamento` (`ID`, `FABRICANTE`, `FAMILIA`, `NOMBRE`, `NUMERODOSIS`, `PRINCIPIOACTIVO`) 
+
+VALUES (NULL, 'fabricante1', 'familia1', 'nombre1', '2', 'principio1')
+
+
+
