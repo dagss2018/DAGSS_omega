@@ -25,9 +25,10 @@ public class FarmaciaDAO extends GenericoDAO<Farmacia> {
     // Completar aqui
     
     public List<Receta> buscarRecetasPorPaciente(String numeroTarjetaPaciente){
+
         return em.createQuery( "SELECT r FROM Receta as r "
                                     + "WHERE r.prescripcion.paciente.numeroTarjetaSanitaria = :numeroTarjetaPaciente", Receta.class)
-                .setParameter("nTarjetaPaciente",numeroTarjetaPaciente)
+                .setParameter("numeroTarjetaPaciente",numeroTarjetaPaciente)
                 .getResultList();
     }
 }

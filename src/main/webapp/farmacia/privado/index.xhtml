@@ -22,8 +22,8 @@
                 <h:form id="formularioListado">
                      <b:column offset="1" span="6">
                         <b:panel title="Introducir nº tarjeta sanitaria de un paciente" collapsible="false">
-                            <h:inputText id="nTarjeta" label="numeroTarjetaSanitaria" value="#{pacienteControlador.numeroTarjetaSanitaria}" />
-                            <b:commandButton value ="Buscar paciente" action="#{pacienteControlador.doGestionRecetas()}" span="5"/>
+                            <h:inputText id="nTarjeta" label="numeroTarjetaSanitaria" value="#{farmaciaControlador.numTarjetaPaciente}" />
+                            <b:commandButton value ="Buscar paciente" action="#{farmaciaControlador.doBuscarRecetasUsuario()}" span="5"/>
                                              
                         </b:panel>       
                      </b:column>         
