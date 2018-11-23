@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition template="/plantillas/plantillaComun.xhtml">
 
@@ -36,10 +37,6 @@
                                 <h:outputText value="#{receta.prescripcion.medico.nombre}" />
                             </b:dataTableColumn>                    
 
-                            <b:dataTableColumn label="Estado receta">
-                                <h:outputText value="#{receta.estadoReceta.etiqueta}"/>
-                            </b:dataTableColumn>                    
-
                             <b:dataTableColumn label="Fin de validez">
                                 <h:outputText value="#{receta.finValidez}">
                                     <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/>
@@ -48,13 +45,23 @@
 
                             <b:dataTableColumn label="Inicio de validez" orderable="false">
                                 <h:outputText value="#{receta.inicioValidez}">
-                                    <f:convertDateTime pattern="HH:mm" locale="es_ES" timeZone="Europe/Madrid"/>
+                                    <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/>
                                 </h:outputText>
                             </b:dataTableColumn>
+                            <b:dataTableColumn label="Situacion" orderable="false">
 
-                            <b:dataTableColumn label="Farmacia" orderable="false">
-                                <h:outputText value="#{receta.farmaciaDispensadora.nombreFarmacia} "/>
+                                <c:if test="#{receta.inicioValidez gt now and receta.finValidez lt now}">
+                                    <h:outputText value="disponible" />
+                                </c:if>
+                                <c:if test="#{receta.inicioValidez lt now and receta.finValidez gt now}">
+                                    <h:outputText value = " no disponible" />
+                                </c:if>
+
                             </b:dataTableColumn>
+                                                 
+                            <b:dataTableColumn label="Estado receta">
+                                <h:outputText value="#{receta.estadoReceta.etiqueta}"/>
+                            </b:dataTableColumn>                    
 
                         </b:dataTable>
                         
