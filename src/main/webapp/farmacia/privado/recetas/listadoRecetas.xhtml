@@ -21,7 +21,7 @@
             <h:form id="formularioListado">    
                 <b:container fluid="true">
                     <b:panel title="Listado de recetas" collapsible="false">
-                        <b:dataTable id="tablaListado" class="tablaListadoClass"
+                        <b:dataTable ajax='true' id="tablaListado" class="tablaListadoClass"
                                      value="#{farmaciaControlador.listRecetasPacientes}"
                                      var="receta"                            
                                      page-length="5" page-length-menu="[5,10,20]">                     
@@ -48,21 +48,26 @@
                                     <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/>
                                 </h:outputText>
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="Situacion" orderable="false">
 
-                                <c:if test="#{receta.inicioValidez gt now and receta.finValidez lt now}">
-                                    <h:outputText value="disponible" />
-                                </c:if>
-                                <c:if test="#{receta.inicioValidez lt now and receta.finValidez gt now}">
-                                    <h:outputText value = " no disponible" />
-                                </c:if>
-
-                            </b:dataTableColumn>
                                                  
                             <b:dataTableColumn label="Estado receta">
-                                <h:outputText value="#{receta.estadoReceta.etiqueta}"/>
-                            </b:dataTableColumn>                    
-
+                               
+                                <b:selectOneMenu
+                                    value="#{receta.estadoReceta}"
+                                    colMd="2"
+                                    labelColMd="2"
+                                    rendered="#{farmaciaControlador.isRecetaValida(receta) and farmaciaControlador.isRecetaGenerada(receta)}"
+                                    onchange="ajax:farmaciaControlador.onEstadoSeleccionado(receta)"
+                                    update="#{tablaListadoClass}">
+                                    <f:selectItems value="#{farmaciaControlador.getListaEstados()}" var="c" itemValue="#{c}" itemLabel="#{c}"/>
+                                </b:selectOneMenu>
+                                <h:outputText rendered="#{not farmaciaControlador.isRecetaGenerada(receta) or not farmaciaControlador.isRecetaValida(receta)}" value="#{receta.estadoReceta}"/>
+                            </b:dataTableColumn>      
+                            
+                            
+                            <b:dataTableColumn label="Situacion" orderable="false">
+                                    <h:outputText value="#{farmaciaControlador.isRecetaValida(receta)? 'Disponible' : 'No disponible'}" />
+                            </b:dataTableColumn>
                         </b:dataTable>
                         
                     </b:panel>

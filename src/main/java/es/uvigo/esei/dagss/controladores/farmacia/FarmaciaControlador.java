@@ -5,6 +5,8 @@ package es.uvigo.esei.dagss.controladores.farmacia;
 
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.FarmaciaDAO;
+import es.uvigo.esei.dagss.dominio.daos.RecetaDAO;
+import es.uvigo.esei.dagss.dominio.entidades.EstadoReceta;
 import es.uvigo.esei.dagss.dominio.entidades.Farmacia;
 import es.uvigo.esei.dagss.dominio.entidades.Receta;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
@@ -12,6 +14,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -38,6 +41,9 @@ public class FarmaciaControlador implements Serializable {
 
     @EJB
     private FarmaciaDAO farmaciaDAO;
+
+    @EJB
+    private RecetaDAO recetaDAO;
 
     
     
@@ -120,6 +126,31 @@ public class FarmaciaControlador implements Serializable {
                     farmaciaDAO.buscarRecetasPorPaciente(numTarjetaPaciente);
 
         return "recetas/listadoRecetas";
+    }
+    
+    
+    public boolean isRecetaValida(Receta receta){
+        Date today = new Date();
+        return receta.getInicioValidez().before(today) && receta.getFinValidez().after(today);
+    }
+    
+    
+    public boolean isRecetaGenerada(Receta receta){
+        return receta.getEstado().equals(EstadoReceta.GENERADA);
+    }
+    
+    public List<EstadoReceta> getListaEstados(){
+        List<EstadoReceta> listaEstadoReceta = new ArrayList<>();
+        listaEstadoReceta.add(EstadoReceta.GENERADA);
+        listaEstadoReceta.add(EstadoReceta.SERVIDA);
+        listaEstadoReceta.add(EstadoReceta.ANULADA);
+        
+        return listaEstadoReceta;
+    }
+    
+    public void onEstadoSeleccionado(Receta recetaConEstado){
+        recetaConEstado.setFarmaciaDispensadora(this.farmaciaActual);
+        recetaDAO.actualizar(recetaConEstado);
     }
     
 }
