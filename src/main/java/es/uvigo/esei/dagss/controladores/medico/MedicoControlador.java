@@ -4,6 +4,7 @@
 package es.uvigo.esei.dagss.controladores.medico;
 
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
+import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
 import es.uvigo.esei.dagss.dominio.daos.PacienteDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
@@ -14,7 +15,13 @@ import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -38,6 +45,8 @@ public class MedicoControlador implements Serializable {
     
     @Inject
     private AutenticacionControlador autenticacionControlador;
+    @EJB
+    private CitaDAO citaDAO;
     
     private Paciente pacienteEnEdicion;
 
@@ -125,7 +134,7 @@ public class MedicoControlador implements Serializable {
     public String doShowCita() {
         return "detallesCita";
     }
-    
+
     
      public List<Cita> getListCitaMedico() {
         return listCitaMedico;
@@ -133,11 +142,5 @@ public class MedicoControlador implements Serializable {
 
     public void setListCitaMedico(List<Cita> listCitaMedico) {
         this.listCitaMedico = listCitaMedico;
-    }
-    
-    public String doVerPrescripciones(Paciente paciente){
-        this.pacienteEnEdicion = paciente;
-        
-        return "paciente/prescripcionVer";
     }
 }

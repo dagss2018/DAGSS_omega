@@ -5,6 +5,7 @@
 package es.uvigo.esei.dagss.dominio.daos;
 
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
+import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
@@ -16,11 +17,12 @@ import javax.persistence.TypedQuery;
 @LocalBean
 public class CitaDAO  extends GenericoDAO<Cita>{    
 
-    public List<Cita> getCitasPara(Date dia){
-        dia = new Date(new Date().getTime());
-        TypedQuery<Cita> q = em.createQuery("SELECT c FROM Cita AS c "
-                                              + "  WHERE c.fecha = :dia", Cita.class);
-        q.setParameter("dia", dia);
+    public List<Cita> getCitasPara(Medico medico,Date fechaActual){
+
+    TypedQuery<Cita> q = em.createQuery("SELECT c FROM Cita AS c "
+                                              + "  WHERE c.fecha = :fecha_actual AND c.medico.id = :idMedico ", Cita.class);
+        q.setParameter("fecha_actual", fechaActual);
+        q.setParameter("idMedico", medico.getId());
         return q.getResultList();
     }
 }
