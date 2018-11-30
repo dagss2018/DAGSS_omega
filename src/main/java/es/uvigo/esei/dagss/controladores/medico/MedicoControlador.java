@@ -4,10 +4,12 @@
 package es.uvigo.esei.dagss.controladores.medico;
 
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
-import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
+import es.uvigo.esei.dagss.dominio.daos.PacienteDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
+import es.uvigo.esei.dagss.dominio.entidades.Paciente;
+import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -32,14 +34,18 @@ public class MedicoControlador implements Serializable {
     private String numeroColegiado;
     private String password;
 
-     private List<Cita> listCitaMedico = null;
+    private List<Cita> listCitaMedico;
     
     @Inject
     private AutenticacionControlador autenticacionControlador;
     
+    private Paciente pacienteEnEdicion;
 
     @EJB
     private MedicoDAO medicoDAO;
+    
+    @EJB
+    private PacienteDAO pacienteDAO;
 
     /**
      * Creates a new instance of AdministradorControlador
@@ -127,5 +133,11 @@ public class MedicoControlador implements Serializable {
 
     public void setListCitaMedico(List<Cita> listCitaMedico) {
         this.listCitaMedico = listCitaMedico;
+    }
+    
+    public String doVerPrescripciones(Paciente paciente){
+        this.pacienteEnEdicion = paciente;
+        
+        return "paciente/prescripcionVer";
     }
 }

@@ -4,6 +4,7 @@
 package es.uvigo.esei.dagss.dominio.daos;
 
 import es.uvigo.esei.dagss.dominio.entidades.Paciente;
+import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -53,4 +54,10 @@ public class PacienteDAO extends GenericoDAO<Paciente> {
     }
 
     // Completar aqui
+    public List<Prescripcion> buscarPrescripciones(Paciente paciente){
+        TypedQuery<Prescripcion> q = em.createQuery("SELECT p FROM Prescripcion AS p "
+                                              + "  WHERE p.id = :paciente_id", Prescripcion.class);
+        q.setParameter("paciente_id", paciente.getId());        
+        return q.getResultList();
+    }
 }

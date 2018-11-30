@@ -51,7 +51,11 @@
       
                             
                             <b:dataTableColumn label="Estado receta">
-                                <h:outputText value="#{cita.estadoCita}" />
+                                <h:outputText value="#{cita.estado}" />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Aciones">
+                                <h:commandButton value="VerPrescripciones" action="#{medicoControlador.doVerPrescripciones(cita.paciente)}"/>
+                                <h:commandButton value="CrearPrescripcion" action="#{medicoControlador.doCrearPrescripcion(cita.paciente)}"/>
                             </b:dataTableColumn>      
 
                         </b:dataTable>
