@@ -11,6 +11,20 @@
 
         <ui:define name="tituloPagina">
             <h3> Atención al paciente: Prescripciones del paciente <b>#{medicoControlador.pacienteActual.nombre} #{medicoControlador.pacienteActual.apellidos}</b> </h3>
+                        
+            <h:form id="formularioEstado">    
+                <b:formGroup>
+                    <b:selectOneMenu value="#{medicoControlador.citaActual.estado}" update="@parent" process="@form" colMd="2" labelColMd="2" 
+                                     converter="omnifaces.SelectItemsConverter">
+                        <f:selectItems var="itemEstado" 
+                                       value="#{medicoControlador.listEstados}"                                           
+                                       itemValue="#{itemEstado}" 
+                                       itemLabel="[#{itemEstado.etiqueta}]" />
+                    </b:selectOneMenu>
+                    <b:commandButton id="botonFinCita" icon-awesome="confirm" value="Finalizar cita" tooltip="Finalizar cita" ajax="true"
+                                        actionListener="#{medicoControlador.doFinalizarCita()}"/>
+                </b:formGroup>
+            </h:form>    
         </ui:define>
 
         <ui:define name="menu">
@@ -51,7 +65,6 @@
                                                  update="@(.tablaListadoClass)"/>
                             </b:dataTableColumn>  
                         </b:dataTable>
-                        
                         <f:facet name="footer">
                             <b:commandButton id="botonNuevo" icon-awesome="plus" value="Crear prescripcion" tooltip="Nueva prescripcion" ajax="true"
                                              actionListener="#{medicoControlador.doNuevaPrescripcion()}" 

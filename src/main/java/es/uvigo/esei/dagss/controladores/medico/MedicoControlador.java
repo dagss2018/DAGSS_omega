@@ -10,6 +10,7 @@ import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
 import es.uvigo.esei.dagss.dominio.daos.PacienteDAO;
 import es.uvigo.esei.dagss.dominio.daos.PrescripcionDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
+import es.uvigo.esei.dagss.dominio.entidades.EstadoCita;
 import es.uvigo.esei.dagss.dominio.entidades.Medicamento;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.Paciente;
@@ -23,6 +24,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -46,9 +48,10 @@ public class MedicoControlador implements Serializable {
 
     private List<Cita> listCitaMedico;
     
-    private Cita citaAtendida;
+    private Cita citaActual;
     private Paciente pacienteActual;
-    private List<Prescripcion> prescripcionesPacienteAtendido;
+    private List<Prescripcion> prescripcionesPacienteActual;
+    private List<EstadoCita> listEstados;
     
     private Prescripcion prescripcionActual;
     
@@ -115,19 +118,19 @@ public class MedicoControlador implements Serializable {
     }
     
     public List<Prescripcion> getPrescripcionesPaciente(){
-        return this.prescripcionesPacienteAtendido;
+        return this.prescripcionesPacienteActual;
     }
     
     public void setPrescripcionesPaciente(List<Prescripcion> p){
-        this.prescripcionesPacienteAtendido = p;
+        this.prescripcionesPacienteActual = p;
     }
     
     public Cita getCitaActual(){
-        return this.citaAtendida;
+        return this.citaActual;
     }
     
     public void setCitaActual(Cita c){
-        this.citaAtendida = c;
+        this.citaActual = c;
     }
 
     public Prescripcion getPrescripcionActual(){
@@ -188,6 +191,14 @@ public class MedicoControlador implements Serializable {
         this.listCitaMedico = listCitaMedico;
     }
     
+     public List<EstadoCita> getListEstados() {
+        return listEstados;
+    }
+
+    public void setListEstados(List<EstadoCita> listEstados) {
+        this.listEstados = listEstados;
+    }
+    
     public List<Cita> doBuscarCitasMedico(Date date){
         return citaDAO.getCitasPara(medicoActual, date);
     }
@@ -198,19 +209,23 @@ public class MedicoControlador implements Serializable {
     }
     
     public String doAtenderPaciente(Cita cita){
-        this.citaAtendida = cita;
-        this.pacienteActual = cita.getPaciente();
-        this.prescripcionesPacienteAtendido = pacienteDAO.buscarPrescripcionesVigentes(pacienteActual);
-            System.out.println("Prescripciones: " + this.prescripcionesPacienteAtendido.size());
-        for(Prescripcion p: this.prescripcionesPacienteAtendido){
-            System.out.println("Prescripcion: " + p.toString() + " -> " + p.getMedicamento());
+        if(cita.getEstado().equals(cita.getEstado().PLANIFICADA)){
+            this.citaActual = cita;
+            this.pacienteActual = cita.getPaciente();
+            this.prescripcionesPacienteActual = pacienteDAO.buscarPrescripcionesVigentes(pacienteActual);
+            this.listEstados = new LinkedList<EstadoCita>();
+            for(EstadoCita e : EstadoCita.values()){
+                listEstados.add(e);
+            }
+        
+            return "/medico/privado/paciente/atencionAlPaciente";
         }
-        return "/medico/privado/paciente/atencionAlPaciente";
+        return "";
     }
     
     public String doEliminarPrescripcion(Prescripcion p){
         prescripcionDAO.eliminar(p);
-        this.prescripcionesPacienteAtendido = pacienteDAO.buscarPrescripcionesVigentes(pacienteActual);
+        this.prescripcionesPacienteActual = pacienteDAO.buscarPrescripcionesVigentes(pacienteActual);
         
         return "/medico/privado/paciente/atencionAlPaciente";
     }
@@ -230,8 +245,17 @@ public class MedicoControlador implements Serializable {
         
         prescripcionDAO.crear(prescripcionActual);
         
-        this.prescripcionesPacienteAtendido = pacienteDAO.buscarPrescripcionesVigentes(pacienteActual);
+        this.prescripcionesPacienteActual = pacienteDAO.buscarPrescripcionesVigentes(pacienteActual);
         
         return "/medico/privado/paciente/atencionAlPaciente";
+    }
+    
+    public String doFinalizarCita(){
+        citaDAO.actualizar(citaActual);
+        citaActual = null;
+        pacienteActual = null;
+        prescripcionesPacienteActual = null;
+        
+        return "/medico/privado/agenda/listadoCitas";
     }
 }

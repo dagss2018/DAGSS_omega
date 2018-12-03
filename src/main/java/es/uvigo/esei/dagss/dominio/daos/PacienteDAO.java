@@ -69,8 +69,7 @@ public class PacienteDAO extends GenericoDAO<Paciente> {
                                               + "  WHERE p.paciente.id = :paciente_id AND p.fechaFin > :ahora", Prescripcion.class);
         q.setParameter("paciente_id", paciente.getId());
         q.setParameter("ahora", new java.sql.Date(new Date().getTime()));
-        System.out.println("Prescripcion: " + q.toString() + " ---- " + paciente.getId() + " -> " + new java.sql.Date(new Date().getTime()));
-        System.out.println( q.getResultList().toString());
+        
         return q.getResultList();
     }
 }
