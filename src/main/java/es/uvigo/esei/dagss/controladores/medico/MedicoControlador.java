@@ -43,12 +43,14 @@ public class MedicoControlador implements Serializable {
 
     private List<Cita> listCitaMedico;
     
+    private Cita citaAtendida;
+    private Paciente pacienteAtendido;
+    private List<Prescripcion> prescripcionesPacienteAtendido;
+    
     @Inject
     private AutenticacionControlador autenticacionControlador;
     @EJB
     private CitaDAO citaDAO;
-    
-    private Paciente pacienteEnEdicion;
 
     @EJB
     private MedicoDAO medicoDAO;
@@ -92,6 +94,30 @@ public class MedicoControlador implements Serializable {
 
     public void setMedicoActual(Medico medicoActual) {
         this.medicoActual = medicoActual;
+    }
+    
+    public Paciente getPacienteActual(){
+        return this.pacienteAtendido;
+    }
+    
+    public void setPacienteActual(Paciente p){
+        this.pacienteAtendido = p;
+    }
+    
+    public List<Prescripcion> getPrescripcionesPaciente(){
+        return this.prescripcionesPacienteAtendido;
+    }
+    
+    public void setPrescripcionesPaciente(List<Prescripcion> p){
+        this.prescripcionesPacienteAtendido = p;
+    }
+    
+    public Cita getCitaActual(){
+        return this.citaAtendida;
+    }
+    
+    public void setCitaActual(Cita c){
+        this.citaAtendida = c;
     }
 
     private boolean parametrosAccesoInvalidos() {
@@ -151,5 +177,13 @@ public class MedicoControlador implements Serializable {
     public String doBuscarCitasMedicoHoy(){
         this.listCitaMedico = doBuscarCitasMedico(new Date(new Date().getTime()));
         return "/medico/privado/agenda/listadoCitas";
+    }
+    
+    public String doAtenderPaciente(Cita cita){
+        this.citaAtendida = cita;
+        this.pacienteAtendido = cita.getPaciente();
+        this.prescripcionesPacienteAtendido = pacienteDAO.buscarPrescripcionesVigentes(pacienteAtendido);
+        
+        return "/medico/privado/paciente/atencionAlPaciente";
     }
 }

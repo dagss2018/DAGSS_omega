@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:composition template="/plantillas/plantillaComun.xhtml">
+
+        <ui:define name="tituloPagina">
+            <h3> Atención al paciente: Prescripciones del paciente </h3>
+        </ui:define>
+
+        <ui:define name="menu">
+            <ui:include src="/medico/plantillas/menuMedico.xhtml"/>                
+        </ui:define>
+
+        <ui:define name="contenido">
+            <h:form id="formularioListado">    
+                <b:container fluid="true">
+                    <b:panel title="Listado de citas" collapsible="false">
+                        <b:dataTable ajax='true' id="tablaListado" class="tablaListadoClass"
+                                     value="#{medicoControlador.prescripcionesPaciente}"
+                                     var="prescripcion"                            
+                                     page-length="5" page-length-menu="[5,10,20]">                     
+                            <b:dataTableColumn label="Medicamento">
+                                <h:outputText value="#{prescripcion.medicamento.nombre}"/>
+                            </b:dataTableColumn>             
+                            
+                            <b:dataTableColumn label="Dosis">
+                                <h:outputText value="#{prescripcion.dosis}" />
+                            </b:dataTableColumn>       
+
+
+                            <b:dataTableColumn label="FechaInicio" orderable="true">
+                                <h:outputText value="#{prescripcion.fechaInicio}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/>
+                                </h:outputText>
+                            </b:dataTableColumn>           
+                            
+                            <b:dataTableColumn label="FechaFin" orderable="true">
+                                <h:outputText value="#{prescripcion.fechaFin}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/>
+                                </h:outputText>
+                            </b:dataTableColumn>                         
+
+                        </b:dataTable>
+                        
+                        <f:facet name="footer">
+                            <b:commandButton id="botonNuevo" icon-awesome="plus" value="Crear prescripcion" tooltip="Nueva prescripcion" ajax="true"
+                                             actionListener="#{medicoControlador.doNuevaPrescripcion(prescripcion.paciente)}" 
+                                             update=":formularioNuevo:modalNuevo"
+                                             oncomplete="$('.modal-nuevo-class').modal('show')"/>
+                        </f:facet>
+                    </b:panel>
+                </b:container>
+            </h:form>         
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+
