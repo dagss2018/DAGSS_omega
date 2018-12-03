@@ -183,7 +183,10 @@ public class MedicoControlador implements Serializable {
         this.citaAtendida = cita;
         this.pacienteAtendido = cita.getPaciente();
         this.prescripcionesPacienteAtendido = pacienteDAO.buscarPrescripcionesVigentes(pacienteAtendido);
-        
+            System.out.println("Prescripciones: " + this.prescripcionesPacienteAtendido.size());
+        for(Prescripcion p: this.prescripcionesPacienteAtendido){
+            System.out.println("Prescripcion: " + p.toString() + " -> " + p.getMedicamento());
+        }
         return "/medico/privado/paciente/atencionAlPaciente";
     }
 }

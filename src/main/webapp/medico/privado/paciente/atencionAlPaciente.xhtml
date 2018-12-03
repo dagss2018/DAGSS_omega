@@ -20,7 +20,7 @@
         <ui:define name="contenido">
             <h:form id="formularioListado">    
                 <b:container fluid="true">
-                    <b:panel title="Listado de citas" collapsible="false">
+                    <b:panel title="Listado de prescripciones" collapsible="false">
                         <b:dataTable ajax='true' id="tablaListado" class="tablaListadoClass"
                                      value="#{medicoControlador.prescripcionesPaciente}"
                                      var="prescripcion"                            
@@ -56,7 +56,8 @@
                         </f:facet>
                     </b:panel>
                 </b:container>
-            </h:form>         
+            </h:form>    
+            <ui:include src="prescripcionCrear.xhtml"/>     
         </ui:define>
 
     </ui:composition>
