@@ -10,7 +10,7 @@
     <ui:composition template="/plantillas/plantillaComun.xhtml">
 
         <ui:define name="tituloPagina">
-            <h3> Atención al paciente: Prescripciones del paciente </h3>
+            <h3> Atención al paciente: Prescripciones del paciente <b>#{medicoControlador.pacienteActual.nombre} #{medicoControlador.pacienteActual.apellidos}</b> </h3>
         </ui:define>
 
         <ui:define name="menu">
@@ -44,13 +44,17 @@
                                 <h:outputText value="#{prescripcion.fechaFin}">
                                     <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/>
                                 </h:outputText>
-                            </b:dataTableColumn>                         
-
+                            </b:dataTableColumn>       
+                            <b:dataTableColumn label="" orderable="false">
+                                <b:commandButton id="botonBorrar" icon-awesome="trash" tooltip="Eliminar" ajax="true" 
+                                                 actionListener="#{medicoControlador.doEliminarPrescripcion(prescripcion)}"
+                                                 update="@(.tablaListadoClass)"/>
+                            </b:dataTableColumn>  
                         </b:dataTable>
                         
                         <f:facet name="footer">
                             <b:commandButton id="botonNuevo" icon-awesome="plus" value="Crear prescripcion" tooltip="Nueva prescripcion" ajax="true"
-                                             actionListener="#{medicoControlador.doNuevaPrescripcion(prescripcion.paciente)}" 
+                                             actionListener="#{medicoControlador.doNuevaPrescripcion()}" 
                                              update=":formularioNuevo:modalNuevo"
                                              oncomplete="$('.modal-nuevo-class').modal('show')"/>
                         </f:facet>

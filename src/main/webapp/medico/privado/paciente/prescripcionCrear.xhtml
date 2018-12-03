@@ -8,32 +8,29 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
         <h:form id="formularioNuevo">
-            <b:modal id="modalNuevo" class="modal-nuevo-class" title="Crear Centro de Salud">
-                <b:panel title="Crear Centro de Salud" 
-                         rendered="#{not empty gestionCentrosSaludControlador.centroSaludActual}" 
+            <b:modal id="modalNuevo" class="modal-nuevo-class" title="Crear Prescripcion">
+                <b:panel title="Crear Prescripcion" 
+                         rendered="#{not empty medicoControlador.pacienteActual}" 
                          collapsible="false">
-                        <h:outputLabel value="Nombre" for="nombre"/>
-                        <b:inputText id="nombre" value="#{gestionCentrosSaludControlador.centroSaludActual.nombre}" required="true"/>
+                        <h:outputLabel value="Paciente" for="paciente"/>
+                        <b:inputText id="paciente" value="#{medicoControlador.pacienteActual.nombre} #{medicoControlador.pacienteActual.apellidos}" readonly="true" required="true"/>
+                        
+                        <h:outputLabel value="Medicamento" for="medicamento"/>
+                        <b:inputText id="medicamento" value="#{medicoControlador.prescripcionActual.medicamento.id}" required="true"/>
+                        
+                        <h:outputLabel value="Dosis" for="dosis"/>
+                        <b:inputText id="dosis" value="#{medicoControlador.prescripcionActual.dosis}" required="true"/>
 
-                        <h:outputLabel value="Domicilio" for="domicilio"/>
-                        <b:inputText id="domicilio" value="#{gestionCentrosSaludControlador.centroSaludActual.direccion.domicilio}" required="true"/>
+                        <h:outputLabel value="FechaFin" for="fechaFin"/>
+                        <b:dateTimePicker id="fechaFin" value="#{medicoControlador.prescripcionActual.fechaFin}" locale="es_ES" show-time="false" allow-input-toggle="true"/>
 
-                        <h:outputLabel value="Localidad" for="localidad"/>
-                        <b:inputText id="localidad" value="#{gestionCentrosSaludControlador.centroSaludActual.direccion.localidad}" required="true"/>
-
-                        <h:outputLabel value="Cod. Postal" for="codpostal"/>
-                        <b:inputText id="codpostal" value="#{gestionCentrosSaludControlador.centroSaludActual.direccion.codigoPostal}" required="true"/>
-
-                        <h:outputLabel value="Provincia" for="provincia"/>
-                        <b:inputText id="provincia" value="#{gestionCentrosSaludControlador.centroSaludActual.direccion.provincia}" required="true"/>
-
-                        <h:outputLabel value="Teléfono" for="telefono"/>
-                        <b:inputText id="telefono" value="#{gestionCentrosSaludControlador.centroSaludActual.telefono}" required="true"/>
+                        <h:outputLabel value="Indicaciones" for="indicaciones"/>
+                        <b:inputText id="indicaciones" value="#{medicoControlador.prescripcionActual.indicaciones}" required="true"/>
                 </b:panel>
                 <f:facet name="footer">
                     <b:commandButton value="Crear" 
                                      ajax="true" process="@form" update=":formularioListado:tablaListado :mensajesGlobal" 
-                                     actionListener="#{gestionCentrosSaludControlador.doGuardarNuevo()}"  
+                                     actionListener="#{medicoControlador.doGuardarNuevaPrescripcion()}"  
                                      oncomplete="$('.modal-nuevo-class').modal('hide')"/>
                     <b:button value="Cerrar" dismiss="modal"/>
                 </f:facet>
