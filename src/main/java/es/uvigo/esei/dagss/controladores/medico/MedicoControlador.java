@@ -149,7 +149,7 @@ public class MedicoControlador implements Serializable {
     }
     
     public String doBuscarCitasMedicoHoy(){
-        this.listCitaMedico = citaDAO.getCitasPara(medicoActual, new Date(new Date().getTime()));
+        this.listCitaMedico = doBuscarCitasMedico(new Date(new Date().getTime()));
         return "/medico/privado/agenda/listadoCitas";
     }
 }
