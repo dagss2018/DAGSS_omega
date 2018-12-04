@@ -16,6 +16,7 @@ import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.Paciente;
 import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
+import es.uvigo.esei.dagss.dominio.planPrescripcion.PrescripcionFacade;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -71,6 +72,9 @@ public class MedicoControlador implements Serializable {
 
     @EJB
     private MedicamentoDAO medicamentoDAO;
+    
+    @EJB
+    private PrescripcionFacade prescripcionFacade;
     /**
      * Creates a new instance of AdministradorControlador
      */
@@ -244,6 +248,9 @@ public class MedicoControlador implements Serializable {
         prescripcionActual.setPaciente(pacienteActual);
         
         prescripcionDAO.crear(prescripcionActual);
+        prescripcionFacade.crearPlanificador();
+        prescripcionFacade.planificar(prescripcionActual);
+        
         
         this.prescripcionesPacienteActual = pacienteDAO.buscarPrescripcionesVigentes(pacienteActual);
         
