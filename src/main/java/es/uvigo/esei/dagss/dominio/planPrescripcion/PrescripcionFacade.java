@@ -35,7 +35,6 @@ public class PrescripcionFacade {
         List<Receta> listaRecetas = planificadorRecetas.planificarPrescripcion(prescripcion);
         for(Receta r: listaRecetas){
             recetaDAO.crear(r);
-            System.out.println("aqui");
         }
     }
 }
