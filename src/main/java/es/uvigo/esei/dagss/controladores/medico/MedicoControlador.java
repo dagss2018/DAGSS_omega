@@ -69,12 +69,9 @@ public class MedicoControlador implements Serializable {
     private PacienteDAO pacienteDAO;
     
     @EJB
-    private PrescripcionDAO prescripcionDAO;
-
-    @EJB
     private MedicamentoDAO medicamentoDAO;
     
-    @EJB
+    @Inject
     private PrescripcionFacade prescripcionFacade;
     /**
      * Creates a new instance of AdministradorControlador
@@ -229,7 +226,7 @@ public class MedicoControlador implements Serializable {
     }
     
     public String doEliminarPrescripcion(Prescripcion p){
-        prescripcionDAO.eliminar(p);
+        prescripcionFacade.eliminar(p);
         this.prescripcionesPacienteActual = pacienteDAO.buscarPrescripcionesVigentes(pacienteActual);
         
         return "/medico/privado/paciente/atencionAlPaciente";
@@ -248,8 +245,8 @@ public class MedicoControlador implements Serializable {
         prescripcionActual.setMedicamento(medicamentoDAO.buscarPorId(prescripcionActual.getMedicamento().getId()));
         prescripcionActual.setPaciente(pacienteActual);
         
-        prescripcionDAO.crear(prescripcionActual);
-        prescripcionFacade.crearPlanificador();
+     
+
         prescripcionFacade.planificar(prescripcionActual);
         
         
