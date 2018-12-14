@@ -17,7 +17,7 @@
                         
                         <h:outputLabel value="Medicamento" for="medicamento"/>
                         <b:inputText id="medicamento" value="#{medicoControlador.prescripcionActual.medicamento.id}" required="true"/>
-                        
+                         
                         <h:outputLabel value="Dosis" for="dosis"/>
                         <b:inputText id="dosis" value="#{medicoControlador.prescripcionActual.dosis}" required="true"/>
 
@@ -32,7 +32,7 @@
                                      ajax="true" process="@form" update=":formularioListado:tablaListado :mensajesGlobal" 
                                      actionListener="#{medicoControlador.doGuardarNuevaPrescripcion()}"  
                                      oncomplete="$('.modal-nuevo-class').modal('hide')"/>
-                    <b:button value="Cerrar" dismiss="modal"/>
+                  
                 </f:facet>
             </b:modal>
         </h:form>
