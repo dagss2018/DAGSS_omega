@@ -21,8 +21,8 @@
                                        itemValue="#{itemEstado}" 
                                        itemLabel="[#{itemEstado.etiqueta}]" />
                     </b:selectOneMenu>
-                    <b:commandButton id="botonFinCita" icon-awesome="confirm" value="Finalizar cita" tooltip="Finalizar cita" ajax="true"
-                                        actionListener="#{medicoControlador.doFinalizarCita()}"/>
+                    <b:commandButton id="botonFinCita" icon-awesome="confirm" value="Finalizar cita" tooltip="Finalizar cita" ajax="false"
+                                        action="#{medicoControlador.doFinalizarCita()}"/>
                 </b:formGroup>
             </h:form>    
         </ui:define>

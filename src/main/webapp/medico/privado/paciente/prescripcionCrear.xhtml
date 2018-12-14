@@ -16,7 +16,14 @@
                         <b:inputText id="paciente" value="#{medicoControlador.pacienteActual.nombre} #{medicoControlador.pacienteActual.apellidos}" readonly="true" required="true"/>
                         
                         <h:outputLabel value="Medicamento" for="medicamento"/>
-                        <b:inputText id="medicamento" value="#{medicoControlador.prescripcionActual.medicamento.id}" required="true"/>
+                        <b:inputText id="medicamento" readonly="true" value="#{medicoControlador.prescripcionActual.medicamento.nombre}" required="true" >
+                            <f:facet name="append">
+                                <b:commandButton    iconAwesome="search" look="secondary" ajax="true" 
+                                                    
+                                                    update=":buscadorMedicamento:buscadorMedicamento"
+                                                    oncomplete="$('.buscadorMedicamento').modal('show')"/>
+                            </f:facet>
+                        </b:inputText>
                         
                         <h:outputLabel value="Dosis" for="dosis"/>
                         <b:inputText id="dosis" value="#{medicoControlador.prescripcionActual.dosis}" required="true"/>
@@ -37,6 +44,23 @@
             </b:modal>
         </h:form>
 
+        
+        <h:form id="buscadorMedicamento">
+            <b:modal id="buscadorMedicamento" class="buscadorMedicamento" title="Buscar medicamento" >
+                <p:autoComplete id="acFabricante" value="#{medicoControlador.prescripcionActual.medicamento}" 
+                                completeMethod="#{buscadorControlador.buscarFabricantes}" 
+                                var="medicamento" itemLabel="#{medicamento.nombre}" itemValue="#{medicamento}" 
+                                converter="omnifaces.SelectItemsConverter" forceSelection="true"/>
+                <br/>
+            
+                <f:facet name="footer">
+                    <b:commandButton value="Confirmar" 
+                                     ajax="true" process="@form" update=":formularioListado:tablaListado :mensajesGlobal" 
+                                     actionListener="#{medicoControlador.doGuardarNuevaPrescripcion()}"  
+                                     oncomplete="$('.modal-nuevo-class').modal('hide')"/>
+                </f:facet>
+            </b:modal>
+        </h:form>
     </ui:composition>
 </html>
 

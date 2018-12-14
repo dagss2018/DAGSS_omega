@@ -58,6 +58,7 @@ public class MedicoControlador implements Serializable {
     
     @Inject
     private AutenticacionControlador autenticacionControlador;
+    
     @EJB
     private CitaDAO citaDAO;
 
