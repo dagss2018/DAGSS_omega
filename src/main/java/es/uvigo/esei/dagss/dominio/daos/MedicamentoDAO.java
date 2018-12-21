@@ -56,12 +56,9 @@ public class MedicamentoDAO extends GenericoDAO<Medicamento> {
     }
     
     public List<Medicamento> buscarFabricantes(String nombre){
-        TypedQuery<Medicamento> q = em.createQuery("SELECT m FROM Medicamento AS m ", Medicamento.class);
-//                + "WHERE m.fabricante LIKE :fabricante", Medicamento.class);
+        TypedQuery<Medicamento> q = em.createQuery("SELECT m FROM Medicamento AS m WHERE m.fabricante LIKE :fabricante", Medicamento.class);
         
-//        q.setParameter("fabricante", "%" + nombre + "%");
-        
-//        System.out.println("Fabricante: " + ", " + ", " + q.getParameterValue("fabricante") + ", " + nombre);
+        q.setParameter("fabricante", "%" + nombre + "%");
         
         return q.getResultList();
     }

@@ -5,7 +5,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:o="http://omnifaces.org/ui">
     <ui:composition>
         <h:form id="formularioNuevo">
             <b:modal id="modalNuevo" class="modal-nuevo-class" title="Crear Prescripcion">
@@ -47,10 +48,7 @@
         
         <h:form id="buscadorMedicamento">
             <b:modal id="buscadorMedicamento" class="buscadorMedicamento" title="Buscar medicamento" >
-                <p:autoComplete id="acFabricante" value="#{medicoControlador.prescripcionActual.medicamento}" 
-                                completeMethod="#{buscadorControlador.buscarFabricantes}" 
-                                var="medicamento" itemLabel="#{medicamento.nombre}" itemValue="#{medicamento}" 
-                                converter="omnifaces.SelectItemsConverter" forceSelection="true"/>
+                <!-- Papel libreta -->
                 <br/>
             
                 <f:facet name="footer">
