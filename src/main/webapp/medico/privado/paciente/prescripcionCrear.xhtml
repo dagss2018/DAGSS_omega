@@ -20,7 +20,6 @@
                         <b:inputText id="medicamento" readonly="true" value="#{medicoControlador.prescripcionActual.medicamento.nombre}" required="true" >
                             <f:facet name="append">
                                 <b:commandButton    iconAwesome="search" look="secondary" ajax="true" 
-                                                    
                                                     update=":buscadorMedicamento:buscadorMedicamento"
                                                     oncomplete="$('.buscadorMedicamento').modal('show')"/>
                             </f:facet>
@@ -48,17 +47,59 @@
         
         <h:form id="buscadorMedicamento">
             <b:modal id="buscadorMedicamento" class="buscadorMedicamento" title="Buscar medicamento" >
-                <!-- Papel libreta -->
+                <h:outputLabel value="Nombre" for="nombre"/>
+                <b:inputText id="nombre" value="#{buscadorControlador.nombreMedicamento}" required="false" typeahead-minLength="3">
+                    <f:facet name="append">
+                        <b:commandButton ajax="true" update="tablaListado" actionListener="#{buscadorControlador.buscarNombresMedicamentos()}" iconAwesome="search" icon-align="right"/>
+                    </f:facet>
+                </b:inputText>
                 <br/>
-            
-                <f:facet name="footer">
-                    <b:commandButton value="Confirmar" 
-                                     ajax="true" process="@form" update=":formularioListado:tablaListado :mensajesGlobal" 
-                                     actionListener="#{medicoControlador.doGuardarNuevaPrescripcion()}"  
-                                     oncomplete="$('.modal-nuevo-class').modal('hide')"/>
-                </f:facet>
+                <h:outputLabel value="Principio" for="principio"/>
+                <b:inputText id="principio" value="#{buscadorControlador.principioActivo}" required="false" typeahead-minLength="3">
+                    <f:facet name="append">
+                        <b:commandButton ajax="true" update="tablaListado" actionListener="#{buscadorControlador.buscarPrincipiosActivos()}" iconAwesome="search" icon-align="right"/>
+                    </f:facet>
+                </b:inputText>
+                <br/>
+                <h:outputLabel value="Fabricante" for="fabricante"/>
+                <b:inputText id="fabricante" value="#{buscadorControlador.nombreFabricante}" required="false" typeahead-minLength="3">
+                    <f:facet name="append">
+                        <b:commandButton ajax="true" update="tablaListado" actionListener="#{buscadorControlador.buscarFabricantes()}" iconAwesome="search" icon-align="right"/>
+                    </f:facet>
+                </b:inputText>
+                <br/>
+                <h:outputLabel value="Familia" for="familia"/>
+                <b:inputText id="familia" value="#{buscadorControlador.nombreFamilia}" required="false" typeahead-minLength="3">
+                    <f:facet name="append">
+                        <b:commandButton ajax="true" update="tablaListado" actionListener="#{buscadorControlador.buscarFamilias()}" iconAwesome="search" icon-align="right"/>
+                    </f:facet>
+                </b:inputText>
+                <br/>    
+                <b:commandButton value="Buscar por todo" ajax="true" update="tablaListado" actionListener="#{buscadorControlador.buscarMedicamentos()}" iconAwesome="search" icon-align="right"/>
+                   
+                
+                <b:dataTable ajax='true' id="tablaListado" class="tablaListadoClass"
+                             value="#{buscadorControlador.medicamentosBuscados}"
+                                     var="medicamento"                            
+                                     page-length="5" page-length-menu="[5,10,20]"
+                                     rowStyleClass="#{medicamento.id eq medicoControlador.prescripcionActual.medicamento.id ? 'dark-light' : 'dark'}">
+                            <b:dataTableColumn label="Nombre">
+                                <h:outputText value="#{medicamento.nombre}" />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Principio">
+                                <h:outputText value="#{medicamento.principioActivo}"/>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Fabricante">
+                                <h:outputText value="#{medicamento.fabricante}"/>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Familia">
+                                <h:outputText value="#{medicamento.familia}"/>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Seleccionar">
+                                <b:commandButton value="Seleccionar" ajax="true" update=":formularioNuevo:medicamento :buscadorMedicamento:tablaListado" actionListener="#{medicoControlador.prescripcionActual.setMedicamento(medicamento)}" iconAwesome="select" icon-align="right"/>
+                            </b:dataTableColumn>
+                </b:dataTable>
             </b:modal>
         </h:form>
     </ui:composition>
 </html>
-

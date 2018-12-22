@@ -67,19 +67,18 @@ public class BuscadorControlador implements Serializable{
         this.bNombreFamilia = bNombreFamilia;
     }
 
-    public String getNombreFabricando() {
+    public String getNombreFabricante() {
         return bNombreFabricante;
     }
 
-    public void setNombreFabricando(String bNombreFabricando) {
-        this.bNombreFabricante = bNombreFabricando;
+    public void setNombreFabricante(String bNombreFabricante) {
+        this.bNombreFabricante = bNombreFabricante;
     }
 
     public List<Medicamento> getMedicamentosBuscados() {
         if(this.medicamentosBuscados == null){
-            this.medicamentosBuscados = new ArrayList<Medicamento>();
+            this.medicamentosBuscados = new ArrayList<>();
         }
-        System.out.println("Hay " + this.medicamentosBuscados.size());
         return medicamentosBuscados;
     }
 
@@ -87,25 +86,24 @@ public class BuscadorControlador implements Serializable{
         this.medicamentosBuscados = medicamentosBuscados;
     }
 
-    public List<Medicamento> buscarMedicamentos(String query) {
-        return medicamentoDAO.buscar(this.bNombreMedicamento, this.bNombreFabricante,
+    public void buscarMedicamentos() {
+        medicamentosBuscados = medicamentoDAO.buscar(this.bNombreMedicamento, this.bNombreFabricante,
                 this.bNombreFamilia, this.bPrincipioActivo);
     }
 
-    public List<String> buscarPrincipiosActivos(String query) {
-        return medicamentoDAO.buscarPrincipiosActivos(this.bPrincipioActivo);
+    public void buscarPrincipiosActivos() {
+        medicamentosBuscados = medicamentoDAO.buscarPrincipiosActivos(this.bPrincipioActivo);
     }
 
-    public List<String> buscarNombresMedicamentos(String query) {
-        this.bNombreMedicamento = query;
-        return medicamentoDAO.buscarNombresMedicamentos(this.bNombreMedicamento);
+    public void buscarNombresMedicamentos() {
+        medicamentosBuscados = medicamentoDAO.buscarNombresMedicamentos(this.bNombreMedicamento);
     }
 
-    public void buscarFabricantes(String query) {
-        medicamentosBuscados = medicamentoDAO.buscarFabricantes(query);
+    public void buscarFabricantes() {
+        medicamentosBuscados = medicamentoDAO.buscarFabricantes(this.bNombreFabricante);
     }
 
-    public List<String> buscarFamilias(String query) {
-        return medicamentoDAO.buscarFamilias(this.bNombreFamilia);
+    public void buscarFamilias() {
+        medicamentosBuscados = medicamentoDAO.buscarFamilias(this.bNombreFamilia);
     }
 }

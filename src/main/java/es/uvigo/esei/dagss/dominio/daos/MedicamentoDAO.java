@@ -17,8 +17,8 @@ public class MedicamentoDAO extends GenericoDAO<Medicamento> {
     public List<Medicamento> buscar( String nombreMedicamento, String nombreFabricante, 
                                 String nombreFamilia, String principioActivo){
         TypedQuery<Medicamento> q = em.createQuery("SELECT m FROM Medicamento AS m "
-                + "WHERE m.nombre = :nombre AND m.fabricante = :fabricante AND m.principioActivo = :principioActivo"
-                + " AND m.familia = :familia", Medicamento.class);
+                + "WHERE m.nombre LIKE :nombre AND m.fabricante LIKE :fabricante AND m.principioActivo LIKE :principioActivo"
+                + " AND m.familia LIKE :familia", Medicamento.class);
         
         q.setParameter("nombre", "%" + nombreMedicamento + "%");
         q.setParameter("fabricante", "%" + nombreFabricante + "%");
@@ -28,27 +28,27 @@ public class MedicamentoDAO extends GenericoDAO<Medicamento> {
         return q.getResultList();
     }
     
-    public List<String> buscarPrincipiosActivos(String nombre){
-        TypedQuery<String> q = em.createQuery("SELECT m.principioActivo FROM Medicamento AS m "
-                + "WHERE m.principioActivo = :principioActivo", String.class);
+    public List<Medicamento> buscarPrincipiosActivos(String nombre){
+        TypedQuery<Medicamento> q = em.createQuery("SELECT m FROM Medicamento AS m "
+                + "WHERE m.principioActivo LIKE :principioActivo", Medicamento.class);
         
         q.setParameter("principioActivo", "%" + nombre + "%");
         
         return q.getResultList();
     }
     
-    public List<String> buscarNombresMedicamentos(String nombre){
-        TypedQuery<String> q = em.createQuery("SELECT m.nombre FROM Medicamento AS m "
-                + "WHERE m.nombre = :nombre", String.class);
+    public List<Medicamento> buscarNombresMedicamentos(String nombre){
+        TypedQuery<Medicamento> q = em.createQuery("SELECT m FROM Medicamento AS m "
+                + "WHERE m.nombre LIKE :nombre", Medicamento.class);
         
         q.setParameter("nombre", "%" + nombre + "%");
         
         return q.getResultList();
     }
     
-    public List<String> buscarFamilias(String nombre){
-        TypedQuery<String> q = em.createQuery("SELECT m.familia FROM Medicamento AS m "
-                + "WHERE m.familia = :familia", String.class);
+    public List<Medicamento> buscarFamilias(String nombre){
+        TypedQuery<Medicamento> q = em.createQuery("SELECT m FROM Medicamento AS m "
+                + "WHERE m.familia LIKE :familia", Medicamento.class);
         
         q.setParameter("familia", "%" + nombre + "%");
         
