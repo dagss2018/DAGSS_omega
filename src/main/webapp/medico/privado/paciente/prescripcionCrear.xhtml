@@ -96,7 +96,12 @@
                                 <h:outputText value="#{medicamento.familia}"/>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Seleccionar">
-                                <b:commandButton value="Seleccionar" ajax="true" update=":formularioNuevo:medicamento :buscadorMedicamento:tablaListado" actionListener="#{medicoControlador.prescripcionActual.setMedicamento(medicamento)}" iconAwesome="select" icon-align="right"/>
+                                <b:commandButton value="Seleccionar" ajax="true" 
+                                                 update=":formularioNuevo:medicamento :buscadorMedicamento:tablaListado" 
+                                                 actionListener="#{medicoControlador.prescripcionActual.setMedicamento(medicamento)}" 
+                                                 iconAwesome="select" icon-align="right"
+                                                 oncomplete="$('.buscadorMedicamento').modal('hide')"
+                                                 />
                             </b:dataTableColumn>
                 </b:dataTable>
             </b:modal>
