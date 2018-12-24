@@ -201,21 +201,21 @@ public class MedicoControlador implements Serializable {
         this.listEstados = listEstados;
     }
     
-    public List<Cita> doBuscarCitasMedico(Date date){
-        return citaDAO.getCitasPara(medicoActual, date);
-    }
-    
-    public String doBuscarCitasMedicoHoy(){
-        this.listCitaMedico = doBuscarCitasMedico(new Date(new Date().getTime()));
+    public String doBuscarCitasMedico(Date date){
+        this.listCitaMedico = citaDAO.getCitasPara(medicoActual, date);
         return "/medico/privado/agenda/listadoCitas";
     }
     
+    public String doBuscarCitasMedicoHoy(){
+        return doBuscarCitasMedico(new Date(new Date().getTime()));
+    }
+    
     public String doAtenderPaciente(Cita cita){
-        if(cita.getEstado().equals(cita.getEstado().PLANIFICADA)){
+        if(cita.getEstado().equals(EstadoCita.PLANIFICADA)){
             this.citaActual = cita;
             this.pacienteActual = cita.getPaciente();
             this.prescripcionesPacienteActual = pacienteDAO.buscarPrescripcionesVigentes(pacienteActual);
-            this.listEstados = new LinkedList<EstadoCita>();
+            this.listEstados = new LinkedList<>();
             for(EstadoCita e : EstadoCita.values()){
                 listEstados.add(e);
             }
@@ -235,15 +235,15 @@ public class MedicoControlador implements Serializable {
     public String doNuevaPrescripcion(){
         this.prescripcionActual = new Prescripcion();
         this.prescripcionActual.setMedicamento(new Medicamento());
+        prescripcionActual.setMedico(medicoActual);
+        prescripcionActual.setPaciente(pacienteActual);
         
         return "/medico/privado/paciente/prescripcionCrear";
     }
     
     public String doGuardarNuevaPrescripcion(){
         prescripcionActual.setFechaInicio(new Date(new Date().getTime()));
-        prescripcionActual.setMedico(medicoActual);
         prescripcionActual.setMedicamento(medicamentoDAO.buscarPorId(prescripcionActual.getMedicamento().getId()));
-        prescripcionActual.setPaciente(pacienteActual);
         
      
 
