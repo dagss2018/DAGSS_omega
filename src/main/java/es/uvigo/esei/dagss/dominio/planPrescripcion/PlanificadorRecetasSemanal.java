@@ -32,23 +32,12 @@ public class PlanificadorRecetasSemanal implements PlanificadorRecetas {
 
         //Numero de dias de la prescripcion
         int diasPrescripcion = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / 86400000) + 1;
-        /**OJITO CON LOS PRINTS**/
-        System.out.println("Fecha inicio: " + fechaInicio.getTime() / 86400000);
-        System.out.println("Fecha fin: " + fechaFin.getTime() / 86400000);
-        System.out.print("diasPrescripcion  " + diasPrescripcion);
-
         //Numero de dias que dura una caja
         int totalDiasCaja = (int) Math.ceil((double) prescripcion.getMedicamento().getNumeroDosis() / (double) prescripcion.getDosis());
-        /**OJITO CON LOS PRINTS**/
-        System.out.println("Numero de dosis del medicamento: " + prescripcion.getMedicamento().getNumeroDosis());
-        System.out.println("Numero de dosis: " + prescripcion.getDosis());
-        System.out.println("prueba : " + (int) Math.ceil(2 / 10));
-        System.out.print("totalDiasCaja " + totalDiasCaja);
 
         //Calcular el numero total de recetas
         int totalRecetas = (int) Math.ceil((double) diasPrescripcion / totalDiasCaja);
-        /**OJITO CON LOS PRINTS**/
-        System.out.print("totalRecetas " + totalRecetas);
+
         Date inicioValidezReceta = fechaInicio;
 
         Date fechaReceta = fechaInicio;
@@ -79,13 +68,7 @@ public class PlanificadorRecetasSemanal implements PlanificadorRecetas {
             calendar.setTime(fechaReceta);
             calendar.add(GregorianCalendar.DAY_OF_YEAR, 7);
             finValidezReceta = calendar.getTime();
-
-//            calendar.setTime(finValidezReceta);
-//            calendar.add(GregorianCalendar.DAY_OF_YEAR,- 7 + totalDiasCaja );
-//            inicioValidezReceta = calendar.getTime();
-//            calendar.setTime(finValidezReceta);
-//            calendar.add(GregorianCalendar.DAY_OF_YEAR,7);
-//            finValidezReceta = calendar.getTime();           
+       
         }
 
         return recetas;
