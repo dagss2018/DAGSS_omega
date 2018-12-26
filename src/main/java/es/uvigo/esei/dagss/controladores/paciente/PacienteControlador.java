@@ -136,9 +136,5 @@ public class PacienteControlador implements Serializable {
         return destino;
     }
     
-    
-    public String doGestionRecetas(){
-        return "recetas/listadoRecetas";
-       //return "";
-    }
+
 }
